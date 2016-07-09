@@ -27,6 +27,14 @@ public class Prompter {
         }
     }
 
+    public static double promptDouble(String prompt, Object... args) {
+        try {
+            return Double.parseDouble(prompt(prompt, args));
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     public static boolean promptForYes(String prompt, Object... args) {
         String input = prompt(prompt, args);
 

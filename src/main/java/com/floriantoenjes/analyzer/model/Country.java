@@ -23,6 +23,13 @@ public class Country {
         this.name = name;
     }
 
+    public Country(String code, String name, double adultLiteracyRate, double internetUsers) {
+        this.code = code;
+        this.name = name;
+        this.adultLiteracyRate = adultLiteracyRate;
+        this.internetUsers = internetUsers;
+    }
+
     public String getCode() {
         return code;
     }

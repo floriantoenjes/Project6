@@ -1,5 +1,6 @@
 import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.analyzer.presentation.Menu;
+import com.floriantoenjes.analyzer.util.Prompter;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,8 +23,12 @@ public class Application {
         Country germany = new Country("deu", "Deutschland");
         Country italy = new Country("ita", "Italia");
         Country cameroon = new Country("cam", "Cameroon");
+        Country france = new Country("fra", "France");
 
-        save(Arrays.asList(germany, italy, cameroon));
+        save(germany, italy, cameroon, france);
+
+        italy.setInternetUsers(500.33);
+        update(italy);
 
         showMainMenu();
     }
@@ -31,7 +36,10 @@ public class Application {
     public static void showMainMenu() {
         System.out.printf("%nMain Menu%n");
         Menu mainMenu = new Menu();
-        mainMenu.addMenuItem("List countries", Application::listCountries);
+        mainMenu.addMenuItem("List countries", Application::showCountries);
+        mainMenu.addMenuItem("Edit country", Application::editCountry);
+        mainMenu.addMenuItem("Add country", Application::addCountry);
+        mainMenu.addMenuItem("Delete country", Application::deleteCountry);
         mainMenu.addMenuItem("Exit", () -> {
             System.out.println("Exiting...");
             System.exit(0);
@@ -39,29 +47,74 @@ public class Application {
         mainMenu.show();
     }
 
-    public static void save(List<Country> countries) {
+    private static void addCountry() {
+        List<Country> countries = listCountries();
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("A country with this code already exists!");
+            }
+        }
+        String name = Prompter.prompt("Name> ");
+        double adultLiteracyRate = Prompter.promptDouble("Adult Literacy Rate> ");
+        double internetUsers = Prompter.promptDouble("Internet users > ");
+
+        save(new Country(code, name, adultLiteracyRate, internetUsers));
+        showMainMenu();
+    }
+
+    private static void deleteCountry() {
+        Country country = getCountryByCode();
+        delete(country);
+        showMainMenu();
+    }
+
+    public static void save(Country... countries) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        countries.stream().forEach(session::save);
+        Arrays.stream(countries).forEach(session::save);
         session.getTransaction().commit();
         session.close();
     }
 
-    public static void listCountries() {
+    public static List<Country> listCountries() {
         Session session = sessionFactory.openSession();
         session = sessionFactory.openSession();
-
         Criteria criteria = session.createCriteria(Country.class);
         List<Country> countries = criteria.list();
         session.close();
+        return countries;
+    }
 
-        formatData(countries);
-
+    public static void showCountries() {
+        formatCountries(listCountries());
         showMainMenu();
     }
 
-    public static void formatData(List<Country> countries) {
+    public static Country getCountryByCode() {
+        List<Country> countries = listCountries();
+        String code = Prompter.prompt("Country code> ");
+        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
+        return country;
+    }
+
+    /*public static Country getCountryByCode(String code) {
+        Session session = sessionFactory.openSession();
+        session = sessionFactory.openSession();
+
+        Criteria criteria = session.createCriteria(code);
+        Country country = (Country) criteria.uniqueResult();
+
+        session.close();
+        return country;
+    }*/
+
+    public static void formatCountries(List<Country> countries) {
 
         int max_code = 4;
         int max_name = 4;
@@ -86,6 +139,11 @@ public class Application {
         }
         System.out.println(sb);
 
+        // Sort countries by code
+        countries.sort((c1, c2) -> {
+            return c1.getCode().compareToIgnoreCase(c2.getCode());
+        });
+
         for (Country country : countries) {
             System.out.printf("%-" + max_code + "s | ", country.getCode());
             System.out.printf("%-" + max_name + "s | ", country.getName());
@@ -93,7 +151,15 @@ public class Application {
             System.out.printf("%-" + max_intUsers + "s", country.getInternetUsers());
             System.out.println();
         }
+    }
 
+    public static void editCountry() {
+        Country country = getCountryByCode();
+        country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
+        country.setInternetUsers(Prompter.promptDouble("Internet users> "));
+        update(country);
+
+        showMainMenu();
     }
 
     public static void update(Country country) {
