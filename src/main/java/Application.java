@@ -29,8 +29,8 @@ public class Application {
     }
 
     public static void showMainMenu() {
-        Menu mainMenu = new Menu();
         System.out.printf("%nMain Menu%n");
+        Menu mainMenu = new Menu();
         mainMenu.addMenuItem("List countries", Application::listCountries);
         mainMenu.addMenuItem("Exit", () -> {
             System.out.println("Exiting...");
@@ -96,11 +96,19 @@ public class Application {
 
     }
 
+    public static void update(Country country) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(country);
+        session.getTransaction().commit();
+        session.close();
+    }
+
     public static void delete(Country country) {
         Session session = sessionFactory.openSession();
-
+        session.beginTransaction();
         session.delete(country);
-
+        session.getTransaction().commit();
         session.close();
     }
 }
