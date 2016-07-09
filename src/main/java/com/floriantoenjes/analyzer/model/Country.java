@@ -18,6 +18,13 @@ public class Country {
 
     public Country() {}
 
+    public Country(CountryBuilder cb) {
+        this.code = cb.code;
+        this.name = cb.name;
+        this.adultLiteracyRate = cb.adultLiteracyRate;
+        this.internetUsers = cb.internetUsers;
+    }
+
     public Country(String code, String name) {
         this.code = code;
         this.name = name;
@@ -66,4 +73,34 @@ public class Country {
     public String toString() {
         return code + " " + name + " " + adultLiteracyRate + " " + internetUsers;
     }
+
+    public static class CountryBuilder {
+        String code;
+        String name;
+        double adultLiteracyRate;
+        double internetUsers;
+
+        public CountryBuilder(String code, String name) {
+            this.code = code;
+            this.name = name;
+        }
+
+        public CountryBuilder withAdultLiteracyRate(double alr) {
+            this.adultLiteracyRate = alr;
+            return this;
+        }
+
+        public CountryBuilder withInternetUsers(double intUsers) {
+            this.internetUsers = intUsers;
+            return this;
+        }
+
+        public Country build() {
+            return new Country(this);
+        }
+    }
 }
+
+
+
+

@@ -27,8 +27,12 @@ public class Application {
         Country italy = new Country("ita", "Italia");
         Country cameroon = new Country("cam", "Cameroon");
         Country france = new Country("fra", "France");
+        Country brazil = new Country.CountryBuilder("bra", "Brazil")
+                .withAdultLiteracyRate(355829)
+                .withInternetUsers(518239382)
+                .build();
 
-        save(germany, italy, cameroon, france);
+        save(germany, italy, cameroon, france, brazil);
 
         italy.setInternetUsers(500.33);
         update(italy);
