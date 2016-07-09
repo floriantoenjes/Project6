@@ -122,13 +122,13 @@ public class Application {
         showMainMenu();
     }
 
-    private static Country getCountryByCode(String code) {
+    /*  private static Country getCountryByCode(String code) {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
         Country country = (Country) criteria.uniqueResult();
         session.close();
         return country;
-    }
+    }*/
 
     @SuppressWarnings("unchecked")
     private static List<Country> getCountryList() {
