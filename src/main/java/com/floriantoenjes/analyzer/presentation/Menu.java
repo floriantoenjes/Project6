@@ -5,7 +5,7 @@ import com.floriantoenjes.analyzer.util.Prompter;
 import java.util.ArrayList;
 
 public class Menu  {
-    private ArrayList<MenuItem> menuItems = new ArrayList<>();
+    private final ArrayList<MenuItem> menuItems = new ArrayList<>();
 
     public void show() {
         for (int i = 0; i < menuItems.size(); i++) {

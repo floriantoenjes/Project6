@@ -1,8 +1,8 @@
 package com.floriantoenjes.analyzer.presentation;
 
 public class MenuItem {
-    private String name;
-    private Runnable runnable;
+    private final String name;
+    private final Runnable runnable;
 
     public MenuItem(String name, Runnable runnable) {
         this.name = name;

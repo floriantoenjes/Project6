@@ -26,13 +26,15 @@ public class Application {
         Country cameroon = new Country("cam", "Cameroon");
         Country france = new Country("fra", "France");
 
+        save(germany, italy, cameroon, france);
+
         italy.setInternetUsers(500.33);
         update(italy);
 
         showMainMenu();
     }
 
-    public static void showMainMenu() {
+    private static void showMainMenu() {
         System.out.printf("%nMain Menu%n");
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem("List countries", Application::showCountries);
@@ -46,7 +48,7 @@ public class Application {
         mainMenu.show();
     }
 
-    public static void showCountries() {
+    private static void showCountries() {
         formatCountries(getCountryList());
         showMainMenu();
     }
@@ -71,7 +73,7 @@ public class Application {
         showMainMenu();
     }
 
-    public static void editCountry() {
+    private static void editCountry() {
         Country country = getCountryByCode();
         country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
@@ -85,7 +87,7 @@ public class Application {
         showMainMenu();
     }
 
-    public static Country getCountryByCode() {
+    private static Country getCountryByCode() {
         String code = Prompter.prompt("Code> ");
         Session session = sessionFactory.openSession();
 
@@ -96,16 +98,16 @@ public class Application {
         return country;
     }
 
-    public static List<Country> getCountryList() {
+    @SuppressWarnings("unchecked")
+    private static List<Country> getCountryList() {
         Session session = sessionFactory.openSession();
-        session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Country.class);
         List<Country> countries = criteria.list();
         session.close();
         return countries;
     }
 
-    public static void formatCountries(List<Country> countries) {
+    private static void formatCountries(List<Country> countries) {
         String code = "Code";
         String name = "Name";
         String alr = "Adult Literacy Rate";
@@ -118,7 +120,7 @@ public class Application {
             max_code = Math.max(max_code, country.getCode().length());
             max_name = Math.max(max_name, country.getName().length());
             max_alr = Math.max(max_alr, Double.toString(country.getAdultLiteracyRate()).length());
-            max_intUsers = Math.max(max_intUsers, Double.toString(country.getInternetUsers()).toString().length());
+            max_intUsers = Math.max(max_intUsers, Double.toString(country.getInternetUsers()).length());
         }
 
         // Heading
@@ -149,30 +151,30 @@ public class Application {
     }
 
 
-    public static Session startTransaction() {
+    private static Session startTransaction() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         return session;
     }
 
-    public static void finishTransaction(Session session) {
+    private static void finishTransaction(Session session) {
         session.getTransaction().commit();
         session.close();
     }
 
-    public static void save(Country... countries) {
+    private static void save(Country... countries) {
         Session session = startTransaction();
         Arrays.stream(countries).forEach(session::save);
         finishTransaction(session);
     }
 
-    public static void update(Country... countries) {
+    private static void update(Country... countries) {
         Session session = startTransaction();
         Arrays.stream(countries).forEach(session::update);
         finishTransaction(session);
     }
 
-    public static void delete(Country... countries) {
+    private static void delete(Country... countries) {
         Session session = startTransaction();
         Arrays.stream(countries).forEach(session::delete);
         finishTransaction(session);
