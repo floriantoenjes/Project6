@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
@@ -21,6 +22,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        // Mock Data
         Country germany = new Country("deu", "Deutschland");
         Country italy = new Country("ita", "Italia");
         Country cameroon = new Country("cam", "Cameroon");
@@ -30,7 +32,9 @@ public class Application {
 
         italy.setInternetUsers(500.33);
         update(italy);
+        // End Mock Data
 
+        // Show Menu
         showMainMenu();
     }
 
@@ -70,30 +74,54 @@ public class Application {
         double internetUsers = Prompter.promptDouble("Internet users > ");
 
         save(new Country(code, name, adultLiteracyRate, internetUsers));
+
         showMainMenu();
     }
 
     private static void editCountry() {
-        Country country = getCountryByCode();
+        List<Country> countries = getCountryList();
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("No country with this code exists!");
+            }
+        }
+        Country country = getCountryByCode(code);
         country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
+
         update(country);
+
         showMainMenu();
     }
 
     private static void deleteCountry() {
-        Country country = getCountryByCode();
+        List<Country> countries = getCountryList();
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("No country with this code exists!");
+            }
+        }
+        Country country = getCountryByCode(code);
+
         delete(country);
+
         showMainMenu();
     }
 
-    private static Country getCountryByCode() {
-        String code = Prompter.prompt("Code> ");
+    private static Country getCountryByCode(String code) {
         Session session = sessionFactory.openSession();
-
         Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
         Country country = (Country) criteria.uniqueResult();
-
         session.close();
         return country;
     }
@@ -101,7 +129,7 @@ public class Application {
     @SuppressWarnings("unchecked")
     private static List<Country> getCountryList() {
         Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class);
+        Criteria criteria = session.createCriteria(Country.class).addOrder(Order.asc("code"));
         List<Country> countries = criteria.list();
         session.close();
         return countries;
@@ -125,20 +153,19 @@ public class Application {
 
         // Heading
         System.out.printf("%nCountries%n%n");
+
         // Table Headings
         System.out.printf(code + " | ");
         System.out.printf("%-" + max_name + "s | ", name);
         System.out.printf(alr + " | ");
         System.out.printf(intUsers + "%n");
 
+        // Horizontal Line
         StringBuilder horizontalLine = new StringBuilder();
         for (int i = 0; i < max_code + max_name + max_alr + max_intUsers + 9; i++) {
             horizontalLine.append("-");
         }
         System.out.println(horizontalLine);
-
-        // Sort countries by code
-        countries.sort( (c1, c2) -> c1.getCode().compareToIgnoreCase(c2.getCode()));
 
         // Table rows
         for (Country country : countries) {
