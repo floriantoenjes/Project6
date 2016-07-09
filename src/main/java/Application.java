@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.Arrays;
@@ -97,22 +98,16 @@ public class Application {
     }
 
     public static Country getCountryByCode() {
-        List<Country> countries = listCountries();
-        String code = Prompter.prompt("Country code> ");
-        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
-        return country;
-    }
-
-    /*public static Country getCountryByCode(String code) {
+        String code = Prompter.prompt("Code> ");
         Session session = sessionFactory.openSession();
         session = sessionFactory.openSession();
 
-        Criteria criteria = session.createCriteria(code);
+        Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
         Country country = (Country) criteria.uniqueResult();
 
         session.close();
         return country;
-    }*/
+    }
 
     public static void formatCountries(List<Country> countries) {
 
