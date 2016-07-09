@@ -62,19 +62,38 @@ public class Application {
     }
 
     public static void formatData(List<Country> countries) {
+
+        int max_code = 4;
+        int max_name = 4;
+        int max_alr = 19;
+        int max_intUsers = 14;
+        for (Country country : countries) {
+            max_code = Math.max(max_code, country.getCode().length());
+            max_name = Math.max(max_name, country.getName().length());
+            max_alr = Math.max(max_alr, Double.toString(country.getAdultLiteracyRate()).length());
+            max_intUsers = Math.max(max_intUsers, Double.toString(country.getInternetUsers()).toString().length());
+        }
+
         System.out.printf("%nCountries%n%n");
         System.out.printf("Code | ");
-        System.out.printf("%-11s | ", "Name");
+        System.out.printf("%-" + max_name + "s | ", "Name");
         System.out.printf("Adult Literacy Rate | ");
         System.out.printf("Internet Users%n");
-        System.out.println("----------------------------------------------------");
-        countries.stream().forEach((country) -> {
-            System.out.printf("%-4s | ", country.getCode());
-            System.out.printf(country.getName() + " | ");
-            System.out.printf("%-19s | ", country.getAdultLiteracyRate());
-            System.out.printf("%-14s",country.getInternetUsers());
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < max_code + max_name + max_alr + max_intUsers + 9; i++) {
+            sb.append("-");
+        }
+        System.out.println(sb);
+
+        for (Country country : countries) {
+            System.out.printf("%-" + max_code + "s | ", country.getCode());
+            System.out.printf("%-" + max_name + "s | ", country.getName());
+            System.out.printf("%-" + max_alr + "s | ", country.getAdultLiteracyRate());
+            System.out.printf("%-" + max_intUsers + "s", country.getInternetUsers());
             System.out.println();
-        });
+        }
+
     }
 
     public static void delete(Country country) {
