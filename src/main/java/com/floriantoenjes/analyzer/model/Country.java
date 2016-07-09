@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String code;
 
     @Column
@@ -58,11 +57,6 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", adultLiteracyRate=" + adultLiteracyRate +
-                ", internetUsers=" + internetUsers +
-                '}';
+        return code + " " + name + " " + adultLiteracyRate + " " + internetUsers;
     }
 }
