@@ -90,7 +90,7 @@ public class Application {
                 System.out.println("No country with this code exists!");
             }
         }
-        Country country = getCountryByCode(code);
+        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
         country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
 
@@ -111,7 +111,7 @@ public class Application {
                 System.out.println("No country with this code exists!");
             }
         }
-        Country country = getCountryByCode(code);
+        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
 
         delete(country);
 
