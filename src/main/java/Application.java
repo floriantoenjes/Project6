@@ -63,16 +63,17 @@ public class Application {
 
     public static void formatData(List<Country> countries) {
         System.out.printf("%nCountries%n%n");
-        System.out.print("Code | ");
-        System.out.print("Name | ");
-        System.out.print("Adult Literacy Rate | ");
-        System.out.println("Internet Users");
+        System.out.printf("Code | ");
+        System.out.printf("%-11s | ", "Name");
+        System.out.printf("Adult Literacy Rate | ");
+        System.out.printf("Internet Users%n");
         System.out.println("----------------------------------------------------");
         countries.stream().forEach((country) -> {
-            System.out.print(country.getCode() + " | ");
-            System.out.print(country.getName() + " | ");
-            System.out.print(country.getAdultLiteracyRate() + " | ");
-            System.out.println(country.getInternetUsers());
+            System.out.printf("%-4s | ", country.getCode());
+            System.out.printf(country.getName() + " | ");
+            System.out.printf("%-19s | ", country.getAdultLiteracyRate());
+            System.out.printf("%-14s",country.getInternetUsers());
+            System.out.println();
         });
     }
 
