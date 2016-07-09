@@ -110,11 +110,14 @@ public class Application {
     }
 
     public static void formatCountries(List<Country> countries) {
-
-        int max_code = 4;
-        int max_name = 4;
-        int max_alr = 19;
-        int max_intUsers = 14;
+        String code = "Code";
+        String name = "Name";
+        String alr = "Adult Literacy Rate";
+        String intUsers = "Internet Users";
+        int max_code = code.length();
+        int max_name = name.length();
+        int max_alr = alr.length();
+        int max_intUsers = intUsers.length();
         for (Country country : countries) {
             max_code = Math.max(max_code, country.getCode().length());
             max_name = Math.max(max_name, country.getName().length());
@@ -122,23 +125,24 @@ public class Application {
             max_intUsers = Math.max(max_intUsers, Double.toString(country.getInternetUsers()).toString().length());
         }
 
+        // Heading
         System.out.printf("%nCountries%n%n");
-        System.out.printf("Code | ");
-        System.out.printf("%-" + max_name + "s | ", "Name");
-        System.out.printf("Adult Literacy Rate | ");
-        System.out.printf("Internet Users%n");
+        // Table Headings
+        System.out.printf(code + " | ");
+        System.out.printf("%-" + max_name + "s | ", name);
+        System.out.printf(alr + " | ");
+        System.out.printf(intUsers + "%n");
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder horizontalLine = new StringBuilder();
         for (int i = 0; i < max_code + max_name + max_alr + max_intUsers + 9; i++) {
-            sb.append("-");
+            horizontalLine.append("-");
         }
-        System.out.println(sb);
+        System.out.println(horizontalLine);
 
         // Sort countries by code
-        countries.sort((c1, c2) -> {
-            return c1.getCode().compareToIgnoreCase(c2.getCode());
-        });
+        countries.sort( (c1, c2) -> c1.getCode().compareToIgnoreCase(c2.getCode()));
 
+        // Table rows
         for (Country country : countries) {
             System.out.printf("%-" + max_code + "s | ", country.getCode());
             System.out.printf("%-" + max_name + "s | ", country.getName());
@@ -150,6 +154,7 @@ public class Application {
 
     public static void editCountry() {
         Country country = getCountryByCode();
+
         country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
         update(country);
@@ -157,18 +162,18 @@ public class Application {
         showMainMenu();
     }
 
-    public static void update(Country country) {
+    public static void update(Country... countries) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.update(country);
+        Arrays.stream(countries).forEach(session::update);
         session.getTransaction().commit();
         session.close();
     }
 
-    public static void delete(Country country) {
+    public static void delete(Country... countries) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.delete(country);
+        Arrays.stream(countries).forEach(session::delete);
         session.getTransaction().commit();
         session.close();
     }
