@@ -26,8 +26,6 @@ public class Application {
         Country cameroon = new Country("cam", "Cameroon");
         Country france = new Country("fra", "France");
 
-        save(germany, italy, cameroon, france);
-
         italy.setInternetUsers(500.33);
         update(italy);
 
@@ -48,8 +46,13 @@ public class Application {
         mainMenu.show();
     }
 
+    public static void showCountries() {
+        formatCountries(getCountryList());
+        showMainMenu();
+    }
+
     private static void addCountry() {
-        List<Country> countries = listCountries();
+        List<Country> countries = getCountryList();
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code> ");
@@ -68,45 +71,38 @@ public class Application {
         showMainMenu();
     }
 
+    public static void editCountry() {
+        Country country = getCountryByCode();
+        country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
+        country.setInternetUsers(Prompter.promptDouble("Internet users> "));
+        update(country);
+        showMainMenu();
+    }
+
     private static void deleteCountry() {
         Country country = getCountryByCode();
         delete(country);
         showMainMenu();
     }
 
-    public static void save(Country... countries) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        Arrays.stream(countries).forEach(session::save);
-        session.getTransaction().commit();
-        session.close();
-    }
-
-    public static List<Country> listCountries() {
-        Session session = sessionFactory.openSession();
-        session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class);
-        List<Country> countries = criteria.list();
-        session.close();
-        return countries;
-    }
-
-    public static void showCountries() {
-        formatCountries(listCountries());
-        showMainMenu();
-    }
-
     public static Country getCountryByCode() {
         String code = Prompter.prompt("Code> ");
         Session session = sessionFactory.openSession();
-        session = sessionFactory.openSession();
 
         Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
         Country country = (Country) criteria.uniqueResult();
 
         session.close();
         return country;
+    }
+
+    public static List<Country> getCountryList() {
+        Session session = sessionFactory.openSession();
+        session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Country.class);
+        List<Country> countries = criteria.list();
+        session.close();
+        return countries;
     }
 
     public static void formatCountries(List<Country> countries) {
@@ -152,29 +148,33 @@ public class Application {
         }
     }
 
-    public static void editCountry() {
-        Country country = getCountryByCode();
 
-        country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
-        country.setInternetUsers(Prompter.promptDouble("Internet users> "));
-        update(country);
+    public static Session startTransaction() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        return session;
+    }
 
-        showMainMenu();
+    public static void finishTransaction(Session session) {
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public static void save(Country... countries) {
+        Session session = startTransaction();
+        Arrays.stream(countries).forEach(session::save);
+        finishTransaction(session);
     }
 
     public static void update(Country... countries) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = startTransaction();
         Arrays.stream(countries).forEach(session::update);
-        session.getTransaction().commit();
-        session.close();
+        finishTransaction(session);
     }
 
     public static void delete(Country... countries) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = startTransaction();
         Arrays.stream(countries).forEach(session::delete);
-        session.getTransaction().commit();
-        session.close();
+        finishTransaction(session);
     }
 }
