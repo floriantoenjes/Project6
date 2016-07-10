@@ -1,6 +1,6 @@
-package com.floriantoenjes.analyzer.presentation;
+package com.floriantoenjes.presentation;
 
-import com.floriantoenjes.analyzer.util.Prompter;
+import com.floriantoenjes.util.Prompter;
 
 import java.util.ArrayList;
 

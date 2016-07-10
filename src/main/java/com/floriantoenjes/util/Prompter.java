@@ -1,4 +1,4 @@
-package com.floriantoenjes.analyzer.util;
+package com.floriantoenjes.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

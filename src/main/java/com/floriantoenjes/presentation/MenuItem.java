@@ -1,4 +1,4 @@
-package com.floriantoenjes.analyzer.presentation;
+package com.floriantoenjes.presentation;
 
 public class MenuItem {
     private final String name;

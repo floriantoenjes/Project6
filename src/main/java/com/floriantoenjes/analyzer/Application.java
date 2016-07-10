@@ -1,7 +1,9 @@
+package com.floriantoenjes.analyzer;
+
 import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.analyzer.model.Country.CountryBuilder;
-import com.floriantoenjes.analyzer.presentation.Menu;
-import com.floriantoenjes.analyzer.util.Prompter;
+import com.floriantoenjes.presentation.Menu;
+import com.floriantoenjes.util.Prompter;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
