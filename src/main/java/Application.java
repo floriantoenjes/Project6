@@ -7,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.Arrays;
@@ -57,20 +56,24 @@ public class Application {
     }
 
     private static void showCountries() {
-        formatCountries(getCountryList());
+        printCountryTable(getCountryList());
         showMainMenu();
     }
 
     private static void addCountry() {
         List<Country> countries = getCountryList();
+        printCountryTable(countries);
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
-            if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
+            final String tmpCode = Prompter.prompt("Code (exit to quit)> ");
+            if (tmpCode.equals("exit")) {
+                showMainMenu();
+                return;
+            } else if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
                 code = tmpCode;
                 break;
             } else {
-                System.out.println("A country with this code already exists!");
+                System.out.println("A country with this code already exists! Type");
             }
         }
         String name = Prompter.prompt("Name> ");
@@ -84,6 +87,7 @@ public class Application {
 
     private static void editCountry() {
         List<Country> countries = getCountryList();
+        printCountryTable(countries);
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code> ");
@@ -105,6 +109,7 @@ public class Application {
 
     private static void deleteCountry() {
         List<Country> countries = getCountryList();
+        printCountryTable(countries);
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code> ");
@@ -139,20 +144,24 @@ public class Application {
         return countries;
     }
 
-    private static void formatCountries(List<Country> countries) {
+    private static void printCountryTable(List<Country> countries) {
         String code = "Code";
         String name = "Name";
         String alr = "Adult Literacy Rate";
         String intUsers = "Internet Users";
-        int max_code = code.length();
-        int max_name = name.length();
-        int max_alr = alr.length();
-        int max_intUsers = intUsers.length();
+
+
+        // Get greatest length for each value to determine table space
+        int lengthCode = code.length();
+        int lengthName = name.length();
+        int lengthAlr = alr.length();
+        int lengthIntUsers = intUsers.length();
+
         for (Country country : countries) {
-            max_code = Math.max(max_code, country.getCode().length());
-            max_name = Math.max(max_name, country.getName().length());
-            max_alr = Math.max(max_alr, Double.toString(country.getAdultLiteracyRate()).length());
-            max_intUsers = Math.max(max_intUsers, Double.toString(country.getInternetUsers()).length());
+            lengthCode = Math.max(lengthCode, country.getCode().length());
+            lengthName = Math.max(lengthName, country.getName().length());
+            lengthAlr = Math.max(lengthAlr, Double.toString(country.getAdultLiteracyRate()).length());
+            lengthIntUsers = Math.max(lengthIntUsers, Double.toString(country.getInternetUsers()).length());
         }
 
         // Heading
@@ -160,23 +169,23 @@ public class Application {
 
         // Table Headings
         System.out.printf(code + " | ");
-        System.out.printf("%-" + max_name + "s | ", name);
+        System.out.printf("%-" + lengthName + "s | ", name);
         System.out.printf(alr + " | ");
         System.out.printf(intUsers + "%n");
 
         // Horizontal Line
         StringBuilder horizontalLine = new StringBuilder();
-        for (int i = 0; i < max_code + max_name + max_alr + max_intUsers + 9; i++) {
+        for (int i = 0; i < lengthCode + lengthName + lengthAlr + lengthIntUsers + 9; i++) {
             horizontalLine.append("-");
         }
         System.out.println(horizontalLine);
 
         // Table rows
         for (Country country : countries) {
-            System.out.printf("%-" + max_code + "s | ", country.getCode());
-            System.out.printf("%-" + max_name + "s | ", country.getName());
-            System.out.printf("%-" + max_alr + "s | ", country.getAdultLiteracyRate());
-            System.out.printf("%-" + max_intUsers + "s", country.getInternetUsers());
+            System.out.printf("%-" + lengthCode + "s | ", country.getCode());
+            System.out.printf("%-" + lengthName + "s | ", country.getName());
+            System.out.printf("%-" + lengthAlr + "s | ", country.getAdultLiteracyRate());
+            System.out.printf("%-" + lengthIntUsers + "s", country.getInternetUsers());
             System.out.println();
         }
     }
