@@ -1,4 +1,5 @@
 import com.floriantoenjes.analyzer.model.Country;
+import com.floriantoenjes.analyzer.model.Country.CountryBuilder;
 import com.floriantoenjes.analyzer.presentation.Menu;
 import com.floriantoenjes.analyzer.util.Prompter;
 import org.hibernate.Criteria;
@@ -7,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.Arrays;
@@ -26,23 +28,21 @@ public class Application {
         Country italy = new Country("ita", "Italia");
         Country cameroon = new Country("cam", "Cameroon");
         Country france = new Country("fra", "France");
-        Country brazil = new Country.CountryBuilder("bra", "Brazil")
+        Country brazil = new CountryBuilder("bra", "Brazil")
                 .withAdultLiteracyRate(355829)
                 .withInternetUsers(518239382)
                 .build();
-
         save(germany, italy, cameroon, france, brazil);
 
         italy.setInternetUsers(500.33);
         update(italy);
         // End Mock Data
 
-        // Show Menu
         showMainMenu();
     }
 
     private static void showMainMenu() {
-        System.out.printf("%nMain Menu%n");
+        System.out.println("Main Menu");
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem("List countries", Application::showCountries);
         mainMenu.addMenuItem("Edit country", Application::editCountry);
@@ -58,90 +58,6 @@ public class Application {
     private static void showCountries() {
         printCountryTable(getCountryList());
         showMainMenu();
-    }
-
-    private static void addCountry() {
-        List<Country> countries = getCountryList();
-        printCountryTable(countries);
-        String code;
-        while (true) {
-            final String tmpCode = Prompter.prompt("Code (exit to quit)> ");
-            if (tmpCode.equals("exit")) {
-                showMainMenu();
-                return;
-            } else if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
-                code = tmpCode;
-                break;
-            } else {
-                System.out.println("A country with this code already exists! Type");
-            }
-        }
-        String name = Prompter.prompt("Name> ");
-        double adultLiteracyRate = Prompter.promptDouble("Adult Literacy Rate> ");
-        double internetUsers = Prompter.promptDouble("Internet users > ");
-
-        save(new Country(code, name, adultLiteracyRate, internetUsers));
-
-        showMainMenu();
-    }
-
-    private static void editCountry() {
-        List<Country> countries = getCountryList();
-        printCountryTable(countries);
-        String code;
-        while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
-            if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
-                code = tmpCode;
-                break;
-            } else {
-                System.out.println("No country with this code exists!");
-            }
-        }
-        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
-        country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
-        country.setInternetUsers(Prompter.promptDouble("Internet users> "));
-
-        update(country);
-
-        showMainMenu();
-    }
-
-    private static void deleteCountry() {
-        List<Country> countries = getCountryList();
-        printCountryTable(countries);
-        String code;
-        while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
-            if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
-                code = tmpCode;
-                break;
-            } else {
-                System.out.println("No country with this code exists!");
-            }
-        }
-        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
-
-        delete(country);
-
-        showMainMenu();
-    }
-
-    /*  private static Country getCountryByCode(String code) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
-        Country country = (Country) criteria.uniqueResult();
-        session.close();
-        return country;
-    }*/
-
-    @SuppressWarnings("unchecked")
-    private static List<Country> getCountryList() {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class).addOrder(Order.asc("code"));
-        List<Country> countries = criteria.list();
-        session.close();
-        return countries;
     }
 
     private static void printCountryTable(List<Country> countries) {
@@ -188,6 +104,101 @@ public class Application {
             System.out.printf("%-" + lengthIntUsers + "s", country.getInternetUsers());
             System.out.println();
         }
+        System.out.println();
+    }
+
+    private static void addCountry() {
+        List<Country> countries = getCountryList();
+        printCountryTable(countries);
+        System.out.println("Enter the data of the new country.");
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (tmpCode.equals("quit")) {
+                showMainMenu();
+                return;
+            } else if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("A country with this code already exists!");
+            }
+        }
+        String name = Prompter.prompt("Name> ");
+        double adultLiteracyRate = Prompter.promptDouble("Adult Literacy Rate> ");
+        double internetUsers = Prompter.promptDouble("Internet users > ");
+
+        save(new Country(code, name, adultLiteracyRate, internetUsers));
+
+        System.out.println();
+        showMainMenu();
+    }
+
+    private static void editCountry() {
+        List<Country> countries = getCountryList();
+        printCountryTable(countries);
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (tmpCode.equals("quit")) {
+                showMainMenu();
+                return;
+            } else if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("No country with this code exists!");
+            }
+        }
+        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
+        country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
+        country.setInternetUsers(Prompter.promptDouble("Internet users> "));
+
+        update(country);
+
+        System.out.println();
+        showMainMenu();
+    }
+
+    private static void deleteCountry() {
+        List<Country> countries = getCountryList();
+        printCountryTable(countries);
+        String code;
+        while (true) {
+            final String tmpCode = Prompter.prompt("Code> ");
+            if (tmpCode.equals("quit")) {
+                showMainMenu();
+                return;
+            } else if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
+                code = tmpCode;
+                break;
+            } else {
+                System.out.println("No country with this code exists!");
+            }
+        }
+        Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
+
+        delete(country);
+
+        System.out.println();
+        showMainMenu();
+    }
+
+    private static Country getCountryByCode(String code) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
+        Country country = (Country) criteria.uniqueResult();
+        session.close();
+        return country;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<Country> getCountryList() {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Country.class).addOrder(Order.asc("code"));
+        List<Country> countries = criteria.list();
+        session.close();
+        return countries;
     }
 
 
