@@ -1,5 +1,6 @@
 package com.floriantoenjes.analyzer;
 
+import com.floriantoenjes.analyzer.data.CountryDao;
 import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.analyzer.model.Country.CountryBuilder;
 import com.floriantoenjes.presentation.Menu;
@@ -17,15 +18,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Application {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
-
-    private static SessionFactory buildSessionFactory() {
-        final ServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        return new MetadataSources(registry).buildMetadata().buildSessionFactory();
-    }
+    private static final CountryDao dao = new CountryDao();
 
     public static void main(String[] args) {
-        // Mock Data
+        createMockData();
+        showMainMenu();
+    }
+
+    private static void createMockData() {
         Country germany = new Country("deu", "Deutschland");
         Country italy = new Country("ita", "Italia");
         Country cameroon = new Country("cam", "Cameroon");
@@ -34,13 +34,7 @@ public class Application {
                 .withAdultLiteracyRate(355829)
                 .withInternetUsers(518239382)
                 .build();
-        save(germany, italy, cameroon, france, brazil);
-
-        italy.setInternetUsers(500.33);
-        update(italy);
-        // End Mock Data
-
-        showMainMenu();
+        dao.save(germany, italy, cameroon, france, brazil);
     }
 
     private static void showMainMenu() {
@@ -58,7 +52,7 @@ public class Application {
     }
 
     private static void showCountries() {
-        printCountryTable(getCountryList());
+        printCountryTable(dao.getCountryList());
         showMainMenu();
     }
 
@@ -110,7 +104,7 @@ public class Application {
     }
 
     private static void addCountry() {
-        List<Country> countries = getCountryList();
+        List<Country> countries = dao.getCountryList();
         printCountryTable(countries);
         System.out.println("Enter the data of the new country.");
         String code;
@@ -130,14 +124,14 @@ public class Application {
         double adultLiteracyRate = Prompter.promptDouble("Adult Literacy Rate> ");
         double internetUsers = Prompter.promptDouble("Internet users > ");
 
-        save(new Country(code, name, adultLiteracyRate, internetUsers));
+        dao.save(new Country(code, name, adultLiteracyRate, internetUsers));
 
         System.out.println();
         showMainMenu();
     }
 
     private static void editCountry() {
-        List<Country> countries = getCountryList();
+        List<Country> countries = dao.getCountryList();
         printCountryTable(countries);
         String code;
         while (true) {
@@ -156,14 +150,14 @@ public class Application {
         country.setAdultLiteracyRate(Prompter.promptDouble("Adult Literacy Rate> "));
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
 
-        update(country);
+        dao.update(country);
 
         System.out.println();
         showMainMenu();
     }
 
     private static void deleteCountry() {
-        List<Country> countries = getCountryList();
+        List<Country> countries = dao.getCountryList();
         printCountryTable(countries);
         String code;
         while (true) {
@@ -180,56 +174,14 @@ public class Application {
         }
         Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
 
-        delete(country);
+        dao.delete(country);
 
         System.out.println();
         showMainMenu();
     }
 
-    private static Country getCountryByCode(String code) {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class).add(Restrictions.eq("code", code));
-        Country country = (Country) criteria.uniqueResult();
-        session.close();
-        return country;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<Country> getCountryList() {
-        Session session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(Country.class).addOrder(Order.asc("code"));
-        List<Country> countries = criteria.list();
-        session.close();
-        return countries;
-    }
 
 
-    private static Session startTransaction() {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        return session;
-    }
 
-    private static void finishTransaction(Session session) {
-        session.getTransaction().commit();
-        session.close();
-    }
 
-    private static void save(Country... countries) {
-        Session session = startTransaction();
-        Arrays.stream(countries).forEach(session::save);
-        finishTransaction(session);
-    }
-
-    private static void update(Country... countries) {
-        Session session = startTransaction();
-        Arrays.stream(countries).forEach(session::update);
-        finishTransaction(session);
-    }
-
-    private static void delete(Country... countries) {
-        Session session = startTransaction();
-        Arrays.stream(countries).forEach(session::delete);
-        finishTransaction(session);
-    }
 }
