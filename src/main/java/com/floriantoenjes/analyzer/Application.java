@@ -5,16 +5,7 @@ import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.analyzer.model.Country.CountryBuilder;
 import com.floriantoenjes.presentation.Menu;
 import com.floriantoenjes.util.Prompter;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.ServiceRegistry;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Application {
