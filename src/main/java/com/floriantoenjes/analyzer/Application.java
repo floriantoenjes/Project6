@@ -12,20 +12,8 @@ public class Application {
     private static final CountryDao dao = new CountryDao();
 
     public static void main(String[] args) {
-        createMockData();
+//        createMockData();
         showMainMenu();
-    }
-
-    private static void createMockData() {
-        Country germany = new Country("deu", "Deutschland");
-        Country italy = new Country("ita", "Italia");
-        Country cameroon = new Country("cam", "Cameroon");
-        Country france = new Country("fra", "France");
-        Country brazil = new CountryBuilder("bra", "Brazil")
-                .withAdultLiteracyRate(355829)
-                .withInternetUsers(518239382)
-                .build();
-        dao.save(germany, italy, cameroon, france, brazil);
     }
 
     private static void showMainMenu() {
@@ -54,7 +42,7 @@ public class Application {
         String intUsers = "Internet Users";
 
 
-        // Get greatest length for each value to determine table space
+        // Get greatest length for each value to determine column width
         int lengthCode = code.length();
         int lengthName = name.length();
         int lengthAlr = alr.length();
@@ -126,7 +114,7 @@ public class Application {
         printCountryTable(countries);
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
+            final String tmpCode = Prompter.prompt("Code of country to edit> ");
             if (tmpCode.equals("quit")) {
                 showMainMenu();
                 return;
@@ -171,7 +159,19 @@ public class Application {
         showMainMenu();
     }
 
-
+/*
+    private static void createMockData() {
+        Country germany = new Country("deu", "Deutschland");
+        Country italy = new Country("ita", "Italia");
+        Country cameroon = new Country("cam", "Cameroon");
+        Country france = new Country("fra", "France");
+        Country brazil = new CountryBuilder("bra", "Brazil")
+                .withAdultLiteracyRate(355829)
+                .withInternetUsers(518239382)
+                .build();
+        dao.save(germany, italy, cameroon, france, brazil);
+    }
+*/
 
 
 
