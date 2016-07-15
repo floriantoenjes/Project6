@@ -14,4 +14,5 @@ dependencies {
     compile 'com.h2database:h2:1.4.191'
     compile 'javax.transaction:jta:1.1'
     compile 'org.apache.commons:commons-math3:3.6.1'
+    compile 'commons-lang:commons-lang:2.6'
 }

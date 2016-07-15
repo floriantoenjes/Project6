@@ -4,8 +4,10 @@ import com.floriantoenjes.analyzer.data.CountryDao;
 import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.presentation.Menu;
 import com.floriantoenjes.util.Prompter;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
@@ -60,6 +62,22 @@ public class Application {
             maxIntUsers = Math.max(maxIntUsers, thisIntUsers);
         }
 
+        List<Double> alrCorrelation = new ArrayList<>();
+        List<Double> intUsersCorrelation = new ArrayList<>();
+        for (Country country : countries) {
+            Double thisAlr = country.getAdultLiteracyRate();
+            Double thisIntUsers = country.getInternetUsers();
+            if (thisAlr != null && thisIntUsers != null) {
+                alrCorrelation.add(thisAlr);
+                intUsersCorrelation.add(thisIntUsers);
+            }
+        }
+
+        double correlation = new PearsonsCorrelation().correlation(
+                ArrayUtils.toPrimitive(alrCorrelation.toArray(new Double[alrCorrelation.size()])),
+                ArrayUtils.toPrimitive(intUsersCorrelation.toArray(new Double[intUsersCorrelation.size()]))
+        );
+
         System.out.printf("Statistics%n%n");
 
         System.out.printf("Minimum Adult Literacy Rate: %.2f%% %n", minAlr);
@@ -69,6 +87,10 @@ public class Application {
         System.out.printf("Minimum Rate of Internet Users: %.2f%% %n", minIntUsers);
         System.out.printf("Maximum Rate of Internet Users: %.2f%% %n", maxIntUsers);
         System.out.println();
+
+        System.out.printf("Correlation between the two: %.2f %n", correlation);
+        System.out.println();
+
         showMainMenu();
     }
 
