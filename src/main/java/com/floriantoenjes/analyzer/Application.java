@@ -2,7 +2,6 @@ package com.floriantoenjes.analyzer;
 
 import com.floriantoenjes.analyzer.data.CountryDao;
 import com.floriantoenjes.analyzer.model.Country;
-import com.floriantoenjes.analyzer.model.Country.CountryBuilder;
 import com.floriantoenjes.presentation.Menu;
 import com.floriantoenjes.util.Prompter;
 
@@ -12,7 +11,6 @@ public class Application {
     private static final CountryDao dao = new CountryDao();
 
     public static void main(String[] args) {
-//        createMockData();
         showMainMenu();
     }
 
@@ -36,11 +34,12 @@ public class Application {
     }
 
     private static void printCountryTable(List<Country> countries) {
+
+        // Table headers
         String codeHead = "Code";
         String nameHead = "Name";
         String alrHead = "Adult Literacy Rate";
         String intUsersHead = "Internet Users";
-
 
         // Get greatest length for each value to determine column width
         int lengthCode = codeHead.length();
@@ -52,9 +51,9 @@ public class Application {
             lengthCode = Math.max(lengthCode, country.getCode().length());
             lengthName = Math.max(lengthName, country.getName().length());
             Double alr = country.getAdultLiteracyRate();
-            lengthAlr = (alrHead != null) ? Math.max(lengthAlr, alrHead.toString().length()) : 1;
+            lengthAlr = (alr != null) ? Math.max(lengthAlr, alr.toString().length()) : lengthAlr;
             Double intUsers = country.getInternetUsers();
-            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : 1;
+            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : lengthIntUsers;
         }
 
         // Heading
