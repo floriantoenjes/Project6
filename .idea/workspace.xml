@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd0851b9-edf9-4ff6-a61e-ebec6d35f7ac" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_lang_commons_lang_2_6.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_test.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java" afterPath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java" />
     </list>
     <ignored path="analyzeDataWithHibernate.iws" />
@@ -49,10 +44,16 @@
       <file leaf-file-name="Application.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="83" column="76" selection-start-line="83" selection-start-column="76" selection-end-line="83" selection-end-column="76" />
+            <state relative-caret-position="334">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#showCountries#0;class#Application#0" expanded="false" />
+                <element signature="method#printCountryTable#0;class#Application#0" expanded="false" />
+                <element signature="method#showStatistics#0;class#Application#0" expanded="false" />
+                <element signature="method#addCountry#0;class#Application#0" expanded="false" />
+                <element signature="method#editCountry#0;class#Application#0" expanded="false" />
+                <element signature="method#deleteCountry#0;class#Application#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -959,7 +960,14 @@
       <option name="project" value="LOCAL" />
       <updated>1468589046084</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Implemented Pearsons Correlation.">
+      <created>1468589896424</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1468589896424</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1051,11 +1059,12 @@
     <MESSAGE value="Improved the formatting of the country list." />
     <MESSAGE value="Edited table formatting." />
     <MESSAGE value="Started implementing the statistics method." />
-    <option name="LAST_COMMIT_MESSAGE" value="Started implementing the statistics method." />
+    <MESSAGE value="Implemented Pearsons Correlation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Pearsons Correlation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1451,10 +1460,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="83" column="76" selection-start-line="83" selection-start-column="76" selection-end-line="83" selection-end-column="76" />
+        <state relative-caret-position="334">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#showCountries#0;class#Application#0" expanded="false" />
+            <element signature="method#printCountryTable#0;class#Application#0" expanded="false" />
+            <element signature="method#showStatistics#0;class#Application#0" expanded="false" />
+            <element signature="method#addCountry#0;class#Application#0" expanded="false" />
+            <element signature="method#editCountry#0;class#Application#0" expanded="false" />
+            <element signature="method#deleteCountry#0;class#Application#0" expanded="false" />
           </folding>
         </state>
       </provider>

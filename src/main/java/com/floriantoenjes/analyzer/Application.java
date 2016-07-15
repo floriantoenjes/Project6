@@ -32,6 +32,64 @@ public class Application {
         mainMenu.show();
     }
 
+    private static void showCountries() {
+        printCountryTable(dao.getCountryList());
+        showMainMenu();
+    }
+
+    private static void printCountryTable(List<Country> countries) {
+
+        // Table headers
+        String codeHead = "Code";
+        String nameHead = "Name";
+        String alrHead = "Adult Literacy Rate";
+        String intUsersHead = "Internet Users";
+
+        // Get greatest length for each value to determine column width
+        int lengthCode = codeHead.length();
+        int lengthName = nameHead.length();
+        int lengthAlr = alrHead.length();
+        int lengthIntUsers = intUsersHead.length();
+
+        for (Country country : countries) {
+            lengthCode = Math.max(lengthCode, country.getCode().length());
+            lengthName = Math.max(lengthName, country.getName().length());
+
+            Double alr = country.getAdultLiteracyRate();
+            lengthAlr = (alr != null) ? Math.max(lengthAlr, alr.toString().length()) : lengthAlr;
+
+            Double intUsers = country.getInternetUsers();
+            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : lengthIntUsers;
+        }
+
+        // Heading
+        System.out.printf("%nCountries%n%n");
+
+        // Table Headings
+        System.out.printf(codeHead + " | ");
+        System.out.printf("%-" + lengthName + "s | ", nameHead);
+        System.out.printf(alrHead + " | ");
+        System.out.printf(intUsersHead + "%n");
+
+        // Horizontal Line
+        StringBuilder horizontalLine = new StringBuilder();
+        for (int i = 0; i < lengthCode + lengthName + lengthAlr + lengthIntUsers + 9; i++) {
+            horizontalLine.append("-");
+        }
+        System.out.println(horizontalLine);
+
+        // Table rows
+        for (Country country : countries) {
+            String code = String.format("%-" + lengthCode + "s | ", country.getCode());
+            String name = String.format("%-" + lengthName + "s | ", country.getName());
+            String alr = (country.getAdultLiteracyRate() != null) ? String.format("%" + lengthAlr + ".2f | ", country.getAdultLiteracyRate()) : String.format("%" + lengthAlr + "s | ", "--");
+            String intUsers = (country.getInternetUsers() != null) ? String.format("%" + lengthIntUsers + ".2f | ", country.getInternetUsers()) : String.format("%" + lengthIntUsers + "s | ", "--");
+
+            System.out.println(code + name + alr + intUsers);
+        }
+        System.out.println();
+    }
+
     private static void showStatistics() {
         List<Country> countries = dao.getCountryList();
         double minAlr = 0;
@@ -92,64 +150,6 @@ public class Application {
         System.out.println();
 
         showMainMenu();
-    }
-
-    private static void showCountries() {
-        printCountryTable(dao.getCountryList());
-        showMainMenu();
-    }
-
-    private static void printCountryTable(List<Country> countries) {
-
-        // Table headers
-        String codeHead = "Code";
-        String nameHead = "Name";
-        String alrHead = "Adult Literacy Rate";
-        String intUsersHead = "Internet Users";
-
-        // Get greatest length for each value to determine column width
-        int lengthCode = codeHead.length();
-        int lengthName = nameHead.length();
-        int lengthAlr = alrHead.length();
-        int lengthIntUsers = intUsersHead.length();
-
-        for (Country country : countries) {
-            lengthCode = Math.max(lengthCode, country.getCode().length());
-            lengthName = Math.max(lengthName, country.getName().length());
-
-            Double alr = country.getAdultLiteracyRate();
-            lengthAlr = (alr != null) ? Math.max(lengthAlr, alr.toString().length()) : lengthAlr;
-
-            Double intUsers = country.getInternetUsers();
-            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : lengthIntUsers;
-        }
-
-        // Heading
-        System.out.printf("%nCountries%n%n");
-
-        // Table Headings
-        System.out.printf(codeHead + " | ");
-        System.out.printf("%-" + lengthName + "s | ", nameHead);
-        System.out.printf(alrHead + " | ");
-        System.out.printf(intUsersHead + "%n");
-
-        // Horizontal Line
-        StringBuilder horizontalLine = new StringBuilder();
-        for (int i = 0; i < lengthCode + lengthName + lengthAlr + lengthIntUsers + 9; i++) {
-            horizontalLine.append("-");
-        }
-        System.out.println(horizontalLine);
-
-        // Table rows
-        for (Country country : countries) {
-            String code = String.format("%-" + lengthCode + "s | ", country.getCode());
-            String name = String.format("%-" + lengthName + "s | ", country.getName());
-            String alr = (country.getAdultLiteracyRate() != null) ? String.format("%" + lengthAlr + ".2f | ", country.getAdultLiteracyRate()) : String.format("%" + lengthAlr + "s | ", "--");
-            String intUsers = (country.getInternetUsers() != null) ? String.format("%" + lengthIntUsers + ".2f | ", country.getInternetUsers()) : String.format("%" + lengthIntUsers + "s | ", "--");
-
-            System.out.println(code + name + alr + intUsers);
-        }
-        System.out.println();
     }
 
     private static void addCountry() {
