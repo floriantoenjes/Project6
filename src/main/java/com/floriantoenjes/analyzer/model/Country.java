@@ -11,10 +11,10 @@ public class Country {
     private String name;
 
     @Column
-    private double adultLiteracyRate;
+    private Double adultLiteracyRate;
 
     @Column
-    private double internetUsers;
+    private Double internetUsers;
 
     public Country() {}
 
@@ -30,7 +30,7 @@ public class Country {
         this.name = name;
     }
 
-    public Country(String code, String name, double adultLiteracyRate, double internetUsers) {
+    public Country(String code, String name, Double adultLiteracyRate, Double internetUsers) {
         this.code = code;
         this.name = name;
         this.adultLiteracyRate = adultLiteracyRate;
@@ -53,19 +53,19 @@ public class Country {
         this.name = name;
     }
 
-    public double getAdultLiteracyRate() {
+    public Double getAdultLiteracyRate() {
         return adultLiteracyRate;
     }
 
-    public void setAdultLiteracyRate(double adultLiteracyRate) {
+    public void setAdultLiteracyRate(Double adultLiteracyRate) {
         this.adultLiteracyRate = adultLiteracyRate;
     }
 
-    public double getInternetUsers() {
+    public Double getInternetUsers() {
         return internetUsers;
     }
 
-    public void setInternetUsers(double internetUsers) {
+    public void setInternetUsers(Double internetUsers) {
         this.internetUsers = internetUsers;
     }
 
@@ -77,20 +77,20 @@ public class Country {
     public static class CountryBuilder {
         String code;
         String name;
-        double adultLiteracyRate;
-        double internetUsers;
+        Double adultLiteracyRate;
+        Double internetUsers;
 
         public CountryBuilder(String code, String name) {
             this.code = code;
             this.name = name;
         }
 
-        public CountryBuilder withAdultLiteracyRate(double alr) {
+        public CountryBuilder withAdultLiteracyRate(Double alr) {
             this.adultLiteracyRate = alr;
             return this;
         }
 
-        public CountryBuilder withInternetUsers(double intUsers) {
+        public CountryBuilder withInternetUsers(Double intUsers) {
             this.internetUsers = intUsers;
             return this;
         }

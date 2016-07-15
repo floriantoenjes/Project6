@@ -36,33 +36,35 @@ public class Application {
     }
 
     private static void printCountryTable(List<Country> countries) {
-        String code = "Code";
-        String name = "Name";
-        String alr = "Adult Literacy Rate";
-        String intUsers = "Internet Users";
+        String codeHead = "Code";
+        String nameHead = "Name";
+        String alrHead = "Adult Literacy Rate";
+        String intUsersHead = "Internet Users";
 
 
         // Get greatest length for each value to determine column width
-        int lengthCode = code.length();
-        int lengthName = name.length();
-        int lengthAlr = alr.length();
-        int lengthIntUsers = intUsers.length();
+        int lengthCode = codeHead.length();
+        int lengthName = nameHead.length();
+        int lengthAlr = alrHead.length();
+        int lengthIntUsers = intUsersHead.length();
 
         for (Country country : countries) {
             lengthCode = Math.max(lengthCode, country.getCode().length());
             lengthName = Math.max(lengthName, country.getName().length());
-            lengthAlr = Math.max(lengthAlr, Double.toString(country.getAdultLiteracyRate()).length());
-            lengthIntUsers = Math.max(lengthIntUsers, Double.toString(country.getInternetUsers()).length());
+            Double alr = country.getAdultLiteracyRate();
+            lengthAlr = (alrHead != null) ? Math.max(lengthAlr, alrHead.toString().length()) : 1;
+            Double intUsers = country.getInternetUsers();
+            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : 1;
         }
 
         // Heading
         System.out.printf("%nCountries%n%n");
 
         // Table Headings
-        System.out.printf(code + " | ");
-        System.out.printf("%-" + lengthName + "s | ", name);
-        System.out.printf(alr + " | ");
-        System.out.printf(intUsers + "%n");
+        System.out.printf(codeHead + " | ");
+        System.out.printf("%-" + lengthName + "s | ", nameHead);
+        System.out.printf(alrHead + " | ");
+        System.out.printf(intUsersHead + "%n");
 
         // Horizontal Line
         StringBuilder horizontalLine = new StringBuilder();
@@ -73,11 +75,12 @@ public class Application {
 
         // Table rows
         for (Country country : countries) {
-            System.out.printf("%-" + lengthCode + "s | ", country.getCode());
-            System.out.printf("%-" + lengthName + "s | ", country.getName());
-            System.out.printf("%-" + lengthAlr + "s | ", country.getAdultLiteracyRate());
-            System.out.printf("%-" + lengthIntUsers + "s", country.getInternetUsers());
-            System.out.println();
+            String code = String.format("%-" + lengthCode + "s | ", country.getCode());
+            String name = String.format("%-" + lengthName + "s | ", country.getName());
+            String alr = (country.getAdultLiteracyRate() != null) ? String.format("%" + lengthAlr + ".2f | ", country.getAdultLiteracyRate()) : String.format("%" + lengthAlr + "s | ", "--");
+            String intUsers = (country.getInternetUsers() != null) ? String.format("%" + lengthIntUsers + ".2f | ", country.getInternetUsers()) : String.format("%" + lengthIntUsers + "s | ", "--");
+
+            System.out.println(code + name + alr + intUsers);
         }
         System.out.println();
     }
@@ -88,7 +91,7 @@ public class Application {
         System.out.println("Enter the data of the new country.");
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
+            final String tmpCode = Prompter.prompt("Code> ").toUpperCase();
             if (tmpCode.equals("quit")) {
                 showMainMenu();
                 return;
@@ -114,7 +117,7 @@ public class Application {
         printCountryTable(countries);
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code of country to edit> ");
+            final String tmpCode = Prompter.prompt("Code of country to edit> ").toUpperCase();
             if (tmpCode.equals("quit")) {
                 showMainMenu();
                 return;
@@ -140,7 +143,7 @@ public class Application {
         printCountryTable(countries);
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code> ");
+            final String tmpCode = Prompter.prompt("Code> ").toUpperCase();
             if (tmpCode.equals("quit")) {
                 showMainMenu();
                 return;
@@ -158,21 +161,4 @@ public class Application {
         System.out.println();
         showMainMenu();
     }
-
-/*
-    private static void createMockData() {
-        Country germany = new Country("deu", "Deutschland");
-        Country italy = new Country("ita", "Italia");
-        Country cameroon = new Country("cam", "Cameroon");
-        Country france = new Country("fra", "France");
-        Country brazil = new CountryBuilder("bra", "Brazil")
-                .withAdultLiteracyRate(355829)
-                .withInternetUsers(518239382)
-                .build();
-        dao.save(germany, italy, cameroon, france, brazil);
-    }
-*/
-
-
-
 }
