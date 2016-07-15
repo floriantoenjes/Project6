@@ -179,6 +179,8 @@ public class Application {
 
         dao.save(new Country(code, name, adultLiteracyRate, internetUsers));
 
+        System.out.println("The new country has been added.");
+
         System.out.println();
         showMainMenu();
     }
@@ -204,6 +206,7 @@ public class Application {
         country.setInternetUsers(Prompter.promptDouble("Internet users> "));
 
         dao.update(country);
+        System.out.println("The country has been edited.");
 
         System.out.println();
         showMainMenu();
@@ -228,6 +231,7 @@ public class Application {
         Country country = countries.stream().filter(c -> c.getCode().equals(code)).findFirst().get();
 
         dao.delete(country);
+        System.out.println("The country has been deleted.");
 
         System.out.println();
         showMainMenu();
