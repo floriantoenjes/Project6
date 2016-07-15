@@ -4,6 +4,7 @@ import com.floriantoenjes.analyzer.data.CountryDao;
 import com.floriantoenjes.analyzer.model.Country;
 import com.floriantoenjes.presentation.Menu;
 import com.floriantoenjes.util.Prompter;
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Application {
         System.out.println("Main Menu");
         Menu mainMenu = new Menu();
         mainMenu.addMenuItem("List countries", Application::showCountries);
+        mainMenu.addMenuItem("Show statistics", Application::showStatistics);
         mainMenu.addMenuItem("Edit country", Application::editCountry);
         mainMenu.addMenuItem("Add country", Application::addCountry);
         mainMenu.addMenuItem("Delete country", Application::deleteCountry);
@@ -26,6 +28,48 @@ public class Application {
             System.exit(0);
         });
         mainMenu.show();
+    }
+
+    private static void showStatistics() {
+        List<Country> countries = dao.getCountryList();
+        double minAlr = 0;
+        double maxAlr = 0;
+
+        double minIntUsers = 0;
+        double maxIntUsers = 0;
+
+        for (Country country : countries) {
+            Double thisAlr = country.getAdultLiteracyRate();
+            if (thisAlr == null) {
+                continue;
+            } else if (minAlr == 0) {
+                minAlr = thisAlr;
+            }
+            minAlr = Math.min(minAlr, thisAlr);
+            maxAlr = Math.max(maxAlr, thisAlr);
+        }
+
+        for (Country country : countries) {
+            Double thisIntUsers = country.getInternetUsers();
+            if (thisIntUsers == null) {
+                continue;
+            } else if (minIntUsers == 0) {
+                minIntUsers = thisIntUsers;
+            }
+            minIntUsers = Math.min(minIntUsers, thisIntUsers);
+            maxIntUsers = Math.max(maxIntUsers, thisIntUsers);
+        }
+
+        System.out.printf("Statistics%n%n");
+
+        System.out.printf("Minimum Adult Literacy Rate: %.2f%% %n", minAlr);
+        System.out.printf("Maximum Adult Literacy Rate: %.2f%% %n", maxAlr);
+        System.out.println();
+
+        System.out.printf("Minimum Rate of Internet Users: %.2f%% %n", minIntUsers);
+        System.out.printf("Maximum Rate of Internet Users: %.2f%% %n", maxIntUsers);
+        System.out.println();
+        showMainMenu();
     }
 
     private static void showCountries() {
@@ -50,8 +94,10 @@ public class Application {
         for (Country country : countries) {
             lengthCode = Math.max(lengthCode, country.getCode().length());
             lengthName = Math.max(lengthName, country.getName().length());
+
             Double alr = country.getAdultLiteracyRate();
             lengthAlr = (alr != null) ? Math.max(lengthAlr, alr.toString().length()) : lengthAlr;
+
             Double intUsers = country.getInternetUsers();
             lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : lengthIntUsers;
         }
@@ -91,7 +137,7 @@ public class Application {
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code> ").toUpperCase();
-            if (tmpCode.equals("quit")) {
+            if (tmpCode.equals("QUIT")) {
                 showMainMenu();
                 return;
             } else if (countries.stream().noneMatch(c -> c.getCode().equals(tmpCode))) {
@@ -117,7 +163,7 @@ public class Application {
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code of country to edit> ").toUpperCase();
-            if (tmpCode.equals("quit")) {
+            if (tmpCode.equals("QUIT")) {
                 showMainMenu();
                 return;
             } else if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {
@@ -143,7 +189,7 @@ public class Application {
         String code;
         while (true) {
             final String tmpCode = Prompter.prompt("Code> ").toUpperCase();
-            if (tmpCode.equals("quit")) {
+            if (tmpCode.equals("QUIT")) {
                 showMainMenu();
                 return;
             } else if (countries.stream().anyMatch(c -> c.getCode().equals(tmpCode))) {

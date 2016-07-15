@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Project 6 - Analyze Data with Hibernate.iml" filepath="$PROJECT_DIR$/.idea/modules/Project 6 - Analyze Data with Hibernate.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyzer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/analyzer_main.iml" group="analyzeDataWithHibernate" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyzer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/analyzer_test.iml" group="analyzeDataWithHibernate" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate.iml" filepath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_main.iml" filepath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_main.iml" group="analyzeDataWithHibernate" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_test.iml" filepath="$PROJECT_DIR$/.idea/modules/analyzeDataWithHibernate_test.iml" group="analyzeDataWithHibernate" />
     </modules>
   </component>
 </project>
