@@ -4,6 +4,7 @@
     <list default="true" id="fd0851b9-edf9-4ff6-a61e-ebec6d35f7ac" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java" afterPath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java" afterPath="$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java" />
     </list>
     <ignored path="analyzeDataWithHibernate.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,20 +42,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Application.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Application.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="87">
+              <caret line="96" column="41" selection-start-line="96" selection-start-column="41" selection-end-line="96" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#showCountries#0;class#Application#0" expanded="false" />
                 <element signature="method#printCountryTable#0;class#Application#0" expanded="false" />
                 <element signature="method#showStatistics#0;class#Application#0" expanded="false" />
-                <element signature="method#addCountry#0;class#Application#0" expanded="false" />
-                <element signature="method#editCountry#0;class#Application#0" expanded="false" />
                 <element signature="method#deleteCountry#0;class#Application#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Prompter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -72,7 +81,7 @@
       <file leaf-file-name="MenuItem.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/presentation/MenuItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
+            <state relative-caret-position="204">
               <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#312#313#0" expanded="true" />
@@ -451,12 +460,12 @@
         <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/presentation/MenuItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/Application.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/presentation/MenuItem.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/data/CountryDao.java" />
         <option value="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/model/Country.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java" />
       </list>
     </option>
   </component>
@@ -967,7 +976,14 @@
       <option name="project" value="LOCAL" />
       <updated>1468589896424</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Minor changes.">
+      <created>1468589987142</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1468589987142</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1049,7 +1065,6 @@
     <MESSAGE value="Changed the getCountryByCode method to use Criterion." />
     <MESSAGE value="Edited edit and delete behavior. Not using getCountryByCode anymore." />
     <MESSAGE value="Implemented Builder pattern on Country model" />
-    <MESSAGE value="Minor changes." />
     <MESSAGE value="Country table is now shown before crud action prompt." />
     <MESSAGE value="Minor output format changes." />
     <MESSAGE value="Changed package structure." />
@@ -1060,7 +1075,8 @@
     <MESSAGE value="Edited table formatting." />
     <MESSAGE value="Started implementing the statistics method." />
     <MESSAGE value="Implemented Pearsons Correlation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Pearsons Correlation." />
+    <MESSAGE value="Minor changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1398,14 +1414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/data/CountryDao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1428,7 +1436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
           <caret line="4301" column="0" selection-start-line="4301" selection-start-column="0" selection-end-line="4301" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1442,7 +1449,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/presentation/MenuItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
+        <state relative-caret-position="204">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#312#313#0" expanded="true" />
@@ -1460,17 +1467,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/analyzer/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+        <state relative-caret-position="87">
+          <caret line="96" column="41" selection-start-line="96" selection-start-column="41" selection-end-line="96" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#showCountries#0;class#Application#0" expanded="false" />
             <element signature="method#printCountryTable#0;class#Application#0" expanded="false" />
             <element signature="method#showStatistics#0;class#Application#0" expanded="false" />
-            <element signature="method#addCountry#0;class#Application#0" expanded="false" />
-            <element signature="method#editCountry#0;class#Application#0" expanded="false" />
             <element signature="method#deleteCountry#0;class#Application#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/floriantoenjes/util/Prompter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -29,7 +29,7 @@ public class Prompter {
 
     public static double promptDouble(String prompt, Object... args) {
         try {
-            return Double.parseDouble(prompt(prompt, args));
+            return Double.parseDouble(prompt(prompt, args).replace(',', '.'));
         } catch (NumberFormatException e) {
             return 0;
         }

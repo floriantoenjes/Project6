@@ -40,50 +40,54 @@ public class Application {
     private static void printCountryTable(List<Country> countries) {
 
         // Table headers
-        String codeHead = "Code";
-        String nameHead = "Name";
-        String alrHead = "Adult Literacy Rate";
-        String intUsersHead = "Internet Users";
+        String codeHeading = "Code";
+        String nameHeading = "Name";
+        String alrHeading = "Adult Literacy Rate";
+        String intUsersHeading = "Internet Users";
 
         // Get greatest length for each value to determine column width
-        int lengthCode = codeHead.length();
-        int lengthName = nameHead.length();
-        int lengthAlr = alrHead.length();
-        int lengthIntUsers = intUsersHead.length();
+        int codeLength = codeHeading.length();
+        int nameLength = nameHeading.length();
+        int alrLength = alrHeading.length();
+        int intUsersLength = intUsersHeading.length();
 
         for (Country country : countries) {
-            lengthCode = Math.max(lengthCode, country.getCode().length());
-            lengthName = Math.max(lengthName, country.getName().length());
+            codeLength = Math.max(codeLength, country.getCode().length());
+            nameLength = Math.max(nameLength, country.getName().length());
 
             Double alr = country.getAdultLiteracyRate();
-            lengthAlr = (alr != null) ? Math.max(lengthAlr, alr.toString().length()) : lengthAlr;
+            alrLength = (alr != null) ? Math.max(alrLength, alr.toString().length()) : alrLength;
 
             Double intUsers = country.getInternetUsers();
-            lengthIntUsers = (intUsers != null) ? Math.max(lengthIntUsers, intUsers.toString().length()) : lengthIntUsers;
+            intUsersLength = (intUsers != null) ? Math.max(intUsersLength, intUsers.toString().length()) : intUsersLength;
         }
 
         // Heading
         System.out.printf("%nCountries%n%n");
 
         // Table Headings
-        System.out.printf(codeHead + " | ");
-        System.out.printf("%-" + lengthName + "s | ", nameHead);
-        System.out.printf(alrHead + " | ");
-        System.out.printf(intUsersHead + "%n");
+        System.out.printf(codeHeading + " | ");
+        System.out.printf("%-" + nameLength + "s | ", nameHeading);
+        System.out.printf(alrHeading + " | ");
+        System.out.printf(intUsersHeading + "%n");
 
         // Horizontal Line
         StringBuilder horizontalLine = new StringBuilder();
-        for (int i = 0; i < lengthCode + lengthName + lengthAlr + lengthIntUsers + 9; i++) {
+        for (int i = 0; i < codeLength + nameLength + alrLength + intUsersLength + 9; i++) {
             horizontalLine.append("-");
         }
         System.out.println(horizontalLine);
 
         // Table rows
         for (Country country : countries) {
-            String code = String.format("%-" + lengthCode + "s | ", country.getCode());
-            String name = String.format("%-" + lengthName + "s | ", country.getName());
-            String alr = (country.getAdultLiteracyRate() != null) ? String.format("%" + lengthAlr + ".2f | ", country.getAdultLiteracyRate()) : String.format("%" + lengthAlr + "s | ", "--");
-            String intUsers = (country.getInternetUsers() != null) ? String.format("%" + lengthIntUsers + ".2f | ", country.getInternetUsers()) : String.format("%" + lengthIntUsers + "s | ", "--");
+            String code = String.format("%-" + codeLength + "s | ", country.getCode());
+            String name = String.format("%-" + nameLength + "s | ", country.getName());
+
+            String alr = (country.getAdultLiteracyRate() != null) ? String.format("%" + alrLength + ".2f | ",
+                    country.getAdultLiteracyRate()) : String.format("%" + alrLength + "s | ", "--");
+
+            String intUsers = (country.getInternetUsers() != null) ? String.format("%" + intUsersLength + ".2f | ",
+                    country.getInternetUsers()) : String.format("%" + intUsersLength + "s | ", "--");
 
             System.out.println(code + name + alr + intUsers);
         }
@@ -146,7 +150,7 @@ public class Application {
         System.out.printf("Maximum Rate of Internet Users: %.2f%% %n", maxIntUsers);
         System.out.println();
 
-        System.out.printf("Correlation between the two: %.2f %n", correlation);
+        System.out.printf("Correlation Coefficient: %.2f %n", correlation);
         System.out.println();
 
         showMainMenu();
@@ -184,7 +188,7 @@ public class Application {
         printCountryTable(countries);
         String code;
         while (true) {
-            final String tmpCode = Prompter.prompt("Code of country to edit> ").toUpperCase();
+            final String tmpCode = Prompter.prompt("Code of Country to Edit> ").toUpperCase();
             if (tmpCode.equals("QUIT")) {
                 showMainMenu();
                 return;
